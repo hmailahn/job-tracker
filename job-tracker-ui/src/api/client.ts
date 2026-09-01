@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const client = axios.create({
-  baseURL: 'http://localhost:8080/api',
+  baseURL: 'https://job-tracker-production-06bb.up.railway.app/api',
 });
 
 client.interceptors.request.use((config) => {
