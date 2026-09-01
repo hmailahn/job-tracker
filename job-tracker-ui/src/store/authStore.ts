@@ -16,7 +16,7 @@ function loadUser(): AuthUser | null {
   return email && displayName ? { email, displayName } : null;
 }
 
-export const useAuthStore = create<AuthState>((set, get) => ({
+export const useAuthStore = create<AuthState>((set) => ({
   user: loadUser(),
 
   login: async (req) => {
