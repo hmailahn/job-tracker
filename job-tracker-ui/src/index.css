@@ -191,6 +191,35 @@ body {
   gap: 12px;
 }
 
+.nav-user-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.nav-user-btn:hover {
+  background: var(--border);
+}
+
+.success-banner {
+  background: #f0fdf4;
+  border: 0.5px solid #86efac;
+  color: #166534;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  margin-bottom: 1rem;
+}
+
+[data-theme="dark"] .success-banner {
+  background: #0d2818;
+  border-color: #166534;
+  color: #86efac;
+}
+
 .nav-user {
   display: flex;
   align-items: center;
@@ -232,10 +261,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
-  padding: 0;
-  font-size: 15px;
+  /* width: 32px; */
+  /* height: 32px; */
+  /* padding: 0; */
+  /* font-size: 15px; */
 }
 
 /* Layout */
@@ -452,6 +481,43 @@ body {
   cursor: grabbing;
 }
 
+.app-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.app-card-edit {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 13px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease;
+  flex-shrink: 0;
+}
+
+.app-card:hover .app-card-edit {
+  opacity: 1;
+}
+
+.app-card-edit:hover {
+  color: var(--text-primary);
+  background: var(--border);
+}
+
+.app-card-drag {
+  cursor: grab;
+}
+
+.app-card-drag:active {
+  cursor: grabbing;
+}
+
 .app-card-role {
   font-size: 14px;
   font-weight: 600;
@@ -588,4 +654,18 @@ body {
   gap: 8px;
   font-size: 12px;
   color: var(--text-secondary);
+}
+
+.delete-confirm-full {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.delete-confirm-buttons {
+  display: flex;
+  gap: 8px;
 }

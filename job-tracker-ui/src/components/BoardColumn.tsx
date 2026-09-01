@@ -30,7 +30,7 @@ export default function BoardColumn({ status, applications, onCardClick }: Props
             </div>
             <div className="board-column-cards">
                 {applications.map((app) => (
-                    <ApplicationCard key={app.id} app={app} onClick={() => onCardClick(app)} />
+                    <ApplicationCard key={app.id} app={app} onEdit={() => onCardClick(app)} />
                 ))}
                 {applications.length === 0 && (
                     <p className="board-column-empty">No applications</p>

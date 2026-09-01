@@ -124,25 +124,29 @@ export default function ApplicationModal({ application, onClose }: Props) {
                     </label>
 
                     <div className="modal-actions">
-                        {isEditing && (
-                            confirmDelete ? (
-                                <div className="delete-confirm">
-                                    <span>Delete this application?</span>
+                        {confirmDelete ? (
+                            <div className="delete-confirm-full">
+                                <span>Delete this application?</span>
+                                <div className="delete-confirm-buttons">
                                     <button type="button" className="btn-ghost" onClick={() => setConfirmDelete(false)}>Cancel</button>
                                     <button type="button" className="btn-danger" onClick={handleDelete}>Yes, delete</button>
                                 </div>
-                            ) : (
-                                <button type="button" className="btn-danger-ghost" onClick={() => setConfirmDelete(true)}>
-                                    Delete
-                                </button>
-                            )
+                            </div>
+                        ) : (
+                            <>
+                                {isEditing && (
+                                    <button type="button" className="btn-danger-ghost" onClick={() => setConfirmDelete(true)}>
+                                        Delete
+                                    </button>
+                                )}
+                                <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
+                                    <button type="button" className="btn-ghost" onClick={onClose}>Cancel</button>
+                                    <button type="submit" className="btn-primary" disabled={isSaving}>
+                                        {isSaving ? 'Saving...' : isEditing ? 'Save changes' : 'Add application'}
+                                    </button>
+                                </div>
+                            </>
                         )}
-                        <div style={{ marginLeft: 'auto', display: 'flex', gap: 8 }}>
-                            <button type="button" className="btn-ghost" onClick={onClose}>Cancel</button>
-                            <button type="submit" disabled={isSaving}>
-                                {isSaving ? 'Saving...' : isEditing ? 'Save changes' : 'Add application'}
-                            </button>
-                        </div>
                     </div>
                 </form>
             </div>

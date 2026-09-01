@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { DndContext } from '@dnd-kit/core';
+import { DndContext, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import type { DragEndEvent } from '@dnd-kit/core';
 import { useAuthStore } from '../store/authStore';
 import { useApplications, useUpdateApplicationStatus } from '../hooks/useApplications';
@@ -11,6 +11,7 @@ import { useStats } from '../hooks/useStats';
 import StatsBar from '../components/StatsBar';
 import { useFilteredApplications } from '../hooks/useFilteredApplications';
 import { useThemeStore } from '../store/themeStore';
+import UserSettingsModal from '../components/UserSettingsModal';
 
 export default function BoardPage() {
   const user = useAuthStore((s) => s.user);
@@ -24,6 +25,16 @@ export default function BoardPage() {
   const [editingApp, setEditingApp] = useState<Application | undefined>(undefined);
   const theme = useThemeStore((s) => s.theme);
   const toggleTheme = useThemeStore((s) => s.toggleTheme);
+  const [showSettings, setShowSettings] = useState(false);
+
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8, // pixels of movement before a drag starts
+      },
+    })
+  );
 
   function appsForStatus(status: ApplicationStatus) {
     return filteredApplications?.filter((a) => a.status === status) ?? [];
@@ -63,14 +74,13 @@ export default function BoardPage() {
         <span className="nav-logo">Job Tracker</span>
         <div className="nav-right">
           {user && (
-            <span className="nav-user">
+            <button className="nav-user nav-user-btn" onClick={() => setShowSettings(true)}>
               <span className="nav-avatar">{user.displayName[0].toUpperCase()}</span>
               {user.displayName}
-            </span>
+            </button>
           )}
-
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
-            {theme === 'light' ? 'Dark Mode' : 'Light Mode'}
+            {theme === 'light' ? 'Dark Mode 🌙' : 'Light Mode ☀️'}
           </button>
           <button className="btn-logout" onClick={logout}>Sign out</button>
         </div>
@@ -109,7 +119,7 @@ export default function BoardPage() {
         {error && <p style={{ color: 'red' }}>Failed to load applications</p>}
 
         {applications && (
-          <DndContext onDragEnd={handleDragEnd}>
+          <DndContext sensors={sensors} onDragEnd={handleDragEnd}>
             <div className="board">
               {STATUS_ORDER.map((status) => (
                 <BoardColumn
@@ -125,6 +135,7 @@ export default function BoardPage() {
       </div>
 
       {showModal && <ApplicationModal application={editingApp} onClose={closeModal} />}
+      {showSettings && <UserSettingsModal onClose={() => setShowSettings(false)} />}
     </div>
   );
 }

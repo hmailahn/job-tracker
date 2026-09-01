@@ -6,6 +6,7 @@ import BoardPage from './pages/BoardPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useEffect } from 'react';
 import { useThemeStore } from './store/themeStore';
+import NotFoundPage from './pages/NotFoundPage';
 
 const queryClient = new QueryClient();
 
@@ -26,6 +27,7 @@ export default function App() {
             <Route path="/board" element={<BoardPage />} />
           </Route>
           <Route path="/" element={<Navigate to="/board" replace />} />
+          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
     </QueryClientProvider>
