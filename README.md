@@ -2,14 +2,8 @@
 
 A full-stack Kanban-style job application tracker with drag-and-drop status management, live search, and a stats dashboard. Built to actually use during a job search, not just as a demo.
 
-**Live demo:** _add once deployed_
-**Backend repo:** _this repo_
-
----
-
-## Screenshots
-
-> Add a screenshot of the board (light and dark mode) once available.
+**Live demo:** https://job-tracker-eight-mauve.vercel.app
+**Repo:** https://github.com/hmailahn/job-tracker
 
 ---
 
@@ -41,6 +35,10 @@ A full-stack Kanban-style job application tracker with drag-and-drop status mana
 - Spring Security + JWT (jjwt)
 - Spring Data JPA + Hibernate
 - PostgreSQL
+
+**Deployment**
+- Frontend: Vercel
+- Backend + database: Railway
 
 ---
 
@@ -105,6 +103,7 @@ Go to `http://localhost:5173/register` to create your first account. You'll land
 |--------|----------|-------------|----------------|
 | POST | `/api/auth/register` | Create a new account | No |
 | POST | `/api/auth/login` | Log in and receive a JWT | No |
+| PUT | `/api/auth/change-password` | Change the logged-in user's password | Yes |
 | GET | `/api/applications` | Get all applications for the logged-in user | Yes |
 | POST | `/api/applications` | Create a new application | Yes |
 | PUT | `/api/applications/{id}` | Update an application | Yes |
@@ -120,9 +119,9 @@ job-tracker/
   job-tracker-ui/              # React frontend
     src/
       api/                     # Axios client + API functions
-      components/               # ApplicationCard, BoardColumn, ApplicationModal, StatsBar
+      components/               # ApplicationCard, BoardColumn, ApplicationModal, StatsBar, UserSettingsModal
       hooks/                    # useApplications, useStats, useFilteredApplications
-      pages/                    # LoginPage, RegisterPage, BoardPage
+      pages/                    # LoginPage, RegisterPage, BoardPage, NotFoundPage
       store/                    # authStore, themeStore (Zustand)
       types/                    # TypeScript interfaces
   backend/                      # Spring Boot backend
@@ -138,17 +137,9 @@ job-tracker/
 ## Notable implementation details
 
 - **Drag-and-drop persistence**: dropping a card calls a lightweight `PATCH /status` endpoint rather than re-sending the full application object, keeping the request minimal and the UI snappy via React Query's `invalidateQueries` refetch.
+- **Drag-vs-click conflict**: cards are both draggable and clickable (to edit). Solved with `@dnd-kit`'s pointer activation constraint — a drag only starts after 8px of movement, so a quick click reaches the edit button reliably instead of being swallowed as a drag gesture.
 - **Client-derived stats**: response rate and average days waiting are computed with `useMemo` from the same cached application list React Query already holds — no extra backend endpoint needed.
 - **Theme system**: CSS custom properties swapped via a `data-theme` attribute on `<html>`, driven by a small Zustand store that persists the choice to localStorage and falls back to the OS `prefers-color-scheme` on first visit.
-
----
-
-## Roadmap
-
-- [ ] Follow-up reminders with overdue highlighting
-- [ ] Company logo via Clearbit API
-- [ ] Toast notifications on save/delete
-- [ ] Deploy to Vercel (frontend) + Railway (backend)
 
 ---
 
